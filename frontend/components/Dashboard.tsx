@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
-import { 
-  LogOut, Plus, Mail, Calendar, CheckSquare, AlertCircle, RefreshCw, ExternalLink 
+import {
+  LogOut, Plus, Mail, Calendar, CheckSquare, AlertCircle, RefreshCw, ExternalLink
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Button } from './ui/Button';
@@ -86,9 +86,9 @@ export const Dashboard: React.FC = () => {
             {/* User Details */}
             <div className="flex items-center gap-3">
               {user.image ? (
-                <img 
-                  src={user.image} 
-                  alt={user.name || 'User'} 
+                <img
+                  src={user.image}
+                  alt={user.name || 'User'}
                   className="h-9 w-9 rounded-full border border-slate-200"
                   referrerPolicy="no-referrer"
                 />
@@ -104,9 +104,9 @@ export const Dashboard: React.FC = () => {
             </div>
 
             {/* Logout */}
-            <Button 
-              variant="ghost" 
-              className="p-2 h-9 w-9" 
+            <Button
+              variant="ghost"
+              className="p-2 h-9 w-9"
               title="Sign Out"
               onClick={() => signOut()}
             >
@@ -157,21 +157,19 @@ export const Dashboard: React.FC = () => {
           <div className="flex bg-slate-100 p-1 rounded-lg w-full sm:w-auto">
             <button
               onClick={() => setActiveTab('scheduled')}
-              className={`flex-1 sm:flex-initial px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                activeTab === 'scheduled' 
-                  ? 'bg-white text-slate-800 shadow-sm' 
+              className={`flex-1 sm:flex-initial px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === 'scheduled'
+                  ? 'bg-white text-slate-800 shadow-sm'
                   : 'text-slate-500 hover:text-slate-700'
-              }`}
+                }`}
             >
               Scheduled Emails ({totalScheduled})
             </button>
             <button
               onClick={() => setActiveTab('sent')}
-              className={`flex-1 sm:flex-initial px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                activeTab === 'sent' 
-                  ? 'bg-white text-slate-800 shadow-sm' 
+              className={`flex-1 sm:flex-initial px-4 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === 'sent'
+                  ? 'bg-white text-slate-800 shadow-sm'
                   : 'text-slate-500 hover:text-slate-700'
-              }`}
+                }`}
             >
               Sent & Failed ({totalSent + totalFailed})
             </button>
@@ -179,17 +177,17 @@ export const Dashboard: React.FC = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-            <Button 
-              variant="secondary" 
-              onClick={() => loadData(true)} 
+            <Button
+              variant="secondary"
+              onClick={() => loadData(true)}
               disabled={isRefreshing}
               className="px-3"
             >
               <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
             </Button>
-            
-            <Button 
-              variant="primary" 
+
+            <Button
+              variant="primary"
               onClick={() => setIsComposeOpen(true)}
               className="gap-2"
             >
@@ -270,9 +268,9 @@ export const Dashboard: React.FC = () => {
                             <div className="flex items-center gap-2">
                               {getStatusBadge(email.status)}
                               {email.status === 'SENT' && email.etherealPreviewUrl && (
-                                <a 
-                                  href={email.etherealPreviewUrl} 
-                                  target="_blank" 
+                                <a
+                                  href={email.etherealPreviewUrl}
+                                  target="_blank"
                                   rel="noopener noreferrer"
                                   className="inline-flex items-center gap-1 text-sky-600 hover:text-sky-800 transition-colors text-xs font-semibold"
                                 >
@@ -281,8 +279,8 @@ export const Dashboard: React.FC = () => {
                               )}
                               {email.status === 'FAILED' && email.errorMessage && (
                                 <span className="text-xs text-red-500 font-medium" title={email.errorMessage}>
-                                  {email.errorMessage.length > 50 
-                                    ? `${email.errorMessage.substring(0, 50)}...` 
+                                  {email.errorMessage.length > 50
+                                    ? `${email.errorMessage.substring(0, 50)}...`
                                     : email.errorMessage}
                                 </span>
                               )}
@@ -300,8 +298,8 @@ export const Dashboard: React.FC = () => {
       </main>
 
       {/* Campaign Composer Modal */}
-      <ComposeModal 
-        isOpen={isComposeOpen} 
+      <ComposeModal
+        isOpen={isComposeOpen}
         onClose={() => setIsComposeOpen(false)}
         onCampaignCreated={() => loadData(false)}
       />

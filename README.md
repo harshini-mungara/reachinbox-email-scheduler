@@ -6,7 +6,7 @@ A highly reliable, concurrent email scheduling monorepo built using Next.js, Exp
 
 ## 1. Project Overview
 
-The **ReachInbox Email Job Scheduler** allows users to log in securely with Google, parse lists of email recipients from CSV or TXT documents, and schedule customizable bulk outreach campaigns. The system provides strict spacing between emails (minimum delay), Redis-backed hourly rate limiting, and 100% guarantee against duplicate sends (idempotency) even across multiple worker instances. It survives backend crashes and system restarts by using Redis-backed persistent delayed queues.
+The **ReachInbox Email Job Scheduler** allows users to log in securely with Google, parse lists of email recipients from CSV or TXT documents, and schedule customizable bulk outreach campaigns. The system provides strict spacing between emails (minimum delay), Redis-backed hourly rate limiting, and idempotent email processing designed to prevent duplicate sends even across multiple worker instances. It survives backend crashes and system restarts by using Redis-backed persistent delayed queues.
 
 ---
 
@@ -237,6 +237,29 @@ If `affected.count` is 0, the job is immediately skipped, preventing double send
 - If it exceeds `hourlyLimit`, the worker decrements the key, resets the database email status to `RATE_LIMITED`, deletes the current job, and schedules a **new delayed job** to run at the start of the next hour.
 
 ---
+
+### Worker Concurrency & Email Delay
+
+Worker concurrency is configurable using the `WORKER_CONCURRENCY`
+environment variable. The BullMQ worker uses this value to control how
+many email jobs can be processed concurrently.
+
+The minimum delay between emails is configurable per campaign using
+`delaySeconds`. Each recipient is assigned a scheduled time based on
+the campaign start time and its position in the recipient list.
+
+For example, with a 5-second delay:
+
+- Email 1 → start time
+- Email 2 → start time + 5 seconds
+- Email 3 → start time + 10 seconds
+
+This prevents emails from being sent continuously without spacing.
+
+When a large number of emails are scheduled at the same time, BullMQ
+stores the delayed jobs in Redis and processes them according to their
+scheduled times. If the hourly rate limit is reached, remaining jobs
+are rescheduled for the next available hour instead of being dropped.
 
 ## 11. Testing Instructions
 

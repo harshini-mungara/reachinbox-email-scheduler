@@ -41,5 +41,3 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Prisma
-/backend/prisma/migrations/

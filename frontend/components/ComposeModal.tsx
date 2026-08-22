@@ -48,7 +48,7 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({
       const text = event.target?.result as string;
       const stats = parseEmailsClient(text);
       setFileStats(stats);
-      
+
       if (stats.validEmails.length === 0) {
         toast.error('No valid email addresses detected in the uploaded file.');
       } else {
@@ -78,7 +78,7 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({
 
     try {
       setIsSubmitting(true);
-      
+
       await createCampaign(
         {
           subject,
@@ -92,13 +92,13 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({
       );
 
       toast.success('Campaign scheduled successfully!');
-      
+
       // Reset form
       setSubject('');
       setBody('');
       setFileStats(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
-      
+
       onCampaignCreated();
       onClose();
     } catch (error: any) {
@@ -112,19 +112,19 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" 
+      <div
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Card */}
       <div className="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]">
-        
+
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <h2 className="text-lg font-semibold text-slate-800">Compose New Campaign</h2>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="text-slate-400 hover:text-slate-600 transition-colors p-1.5 hover:bg-slate-50 rounded-lg"
           >
             <X className="h-5 w-5" />
@@ -133,7 +133,7 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({
 
         {/* Form Container */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-6">
-          
+
           <Input
             label="Campaign Subject"
             placeholder="e.g. Introducing our new platform!"
@@ -183,7 +183,7 @@ export const ComposeModal: React.FC<ComposeModalProps> = ({
           {/* CSV File Upload Section */}
           <div className="flex flex-col gap-2">
             <label className="text-sm font-medium text-slate-700">Recipient Email List (CSV/TXT)</label>
-            <div 
+            <div
               onClick={() => fileInputRef.current?.click()}
               className="border-2 border-dashed border-slate-200 hover:border-slate-300 transition-colors bg-slate-50/50 hover:bg-slate-50 rounded-xl p-6 flex flex-col items-center justify-center gap-2 cursor-pointer"
             >
